@@ -42,7 +42,7 @@ body{
 }
 
 .apply-animation{
-  animation: spinCard 5s infinite linear;
+  animation: spinCard 30s infinite linear;
 
 }
 .scrollcontainer::-webkit-scrollbar{

@@ -58,7 +58,7 @@ const Page = ({ params }) => {
                 </div>
 
                 {/* Raw Link Buttons */}
-                <div className="links w-full flex flex-col gap-4 h-62.5 link-container scrollbar-thumb-[#ff00df]/80 hover:scrollbar-thumb-[#ff00df] overflow-y-auto mb-10">
+                <div className="links w-full pt-2 flex flex-col gap-4 h-62.5 link-container scrollbar-thumb-[#ff00df]/80 hover:scrollbar-thumb-[#ff00df] overflow-y-auto mb-10">
                 {userData?.links.map((link,index)=>(
                     <LinkButtons key={index} linkText={link?.linkText} linkUrl={link?.linkUrl} />
                 ))}

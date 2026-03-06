@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Card = () => {
+const Card = ({number}) => {
   return (
-    <div className="card1 w-155.5 h-155.5"></div>
+    <div className={`card card${number}  shrink-0 w-157 h-160`}></div>
   )
 }
 
