@@ -124,13 +124,14 @@ export default function Home() {
   if(isLoading) return <LoadingScreen/>
   return (
     
-    <div className=" relative w-full   flex justify-between">
+    <div className=" relative w-full flex justify-between max-xl:flex-col max-xl:justify-center border-red-700">
       
       <Navbar />
 
-      <div className="min-h-screen maincontainer p-5 flex w-[50%]   pt-60">
+      <div className="min-h-screen max-xl:h-fit max-xl: main-container p-5 flex w-[50%] max-xl:w-full pt-60">
 
-        <div className=" flex items-center justify-center p-6  w-full">
+        <div className=" flex items-center justify-center p-6 max-xl:p-0 w-full">
+          
           <div className="createBittree flex flex-col gap-8 bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl w-full max-w-2xl border-2 border-black/5">
 
             <header className="space-y-2">
@@ -211,20 +212,20 @@ export default function Home() {
                     />
 
                     <label
-                      className="group w-full border-2 border-dashed border-slate-200 bg-white/50 backdrop-blur-sm p-2 min-h-16 rounded-2xl cursor-pointer flex items-center justify-between transition-all duration-200 hover:border-[#ff00df] hover:bg-white"
+                      className={`group w-full border-2 border-dashed border-slate-200 bg-white/50 backdrop-blur-sm p-2 min-h-16 rounded-2xl cursor-pointer flex items-center justify-${!uploadingImage?"between":"center"} transition-all duration-200 hover:border-[#ff00df] hover:bg-white`}
                       htmlFor="fileUpload"
                     >
-                      {!userImageUrl && <span className="text-[#676767] text-sm font-medium ml-4 truncate">
+                      {(!userImageUrl && !uploadingImage) && <span className="text-[#676767] text-sm font-medium ml-4 truncate">
                         No file selected...
                       </span>}
-
+                        {uploadingImage && <span className='loader'></span>}
                         {userImageUrl &&<div className='relative w-20 h-20 '>
                           <Image alt='profile-pic' src={userImageUrl} fill/>
                         </div>}
 
-                      <div className="h-12 px-6 flex items-center justify-center rounded-xl bg-[#9800ff] text-white text-sm font-bold shadow-md transition-all group-hover:bg-[#ff00df] active:scale-95">
+                      {!uploadingImage && <div className="h-12 px-6 flex items-center justify-center rounded-xl bg-[#9800ff] text-white text-sm font-bold shadow-md transition-all group-hover:bg-[#ff00df] active:scale-95">
                         Choose File
-                      </div>
+                      </div>}
                       
                     </label>
 
@@ -252,15 +253,15 @@ export default function Home() {
 
       </div>
 
-      <div className="absolute pointer-events-none right-0 h-full scrollcontainer w-150 top-0  overflow-y-auto flex flex-col  ">
+      <div className="absolute max-xl:static pointer-events-none right-2 max-xl:h-fit scrollcontainer top-0 overflow-y-auto flex flex-col max-xl:flex-row">
 
-        <div className="apply-animation scrollwrapper flex flex-col gap-2 w-full  pt-2">
+        <div className="apply-animation scrollwrapper flex flex-col gap-2 w-full pt-2 max-xl:pt-0 max-xl:pl-2 rounded-[40px] max-xl:flex-row max-xl:w-auto">
           {[1, 2, 3, 4, 5].map((item, index) => (
             <Card key={index} number={item} />
           ))}
         </div>
 
-        <div aria-hidden className="apply-animation scrollwrapper flex flex-col gap-2 w-full  ">
+        <div aria-hidden className="apply-animation scrollwrapper flex flex-col gap-2 w-full rounded-[40px] max-xl:flex-row max-xl:w-auto">
           {[1, 2, 3, 4, 5].map((item, index) => (
             <Card key={index} number={item} />
           ))}

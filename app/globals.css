@@ -1,9 +1,10 @@
 @import "tailwindcss";
-*{
+
+* {
   box-sizing: border-box;
 }
 
-body{
+body {
   background-color: #D2E823;
 }
 
@@ -15,59 +16,108 @@ body{
 
 .link-container::-webkit-scrollbar-track {
   background: transparent;
-  margin: 10px; /* Keeps the scrollbar from touching the top/bottom edges */
+  margin: 10px;
+  /* Keeps the scrollbar from touching the top/bottom edges */
 }
 
 .link-container::-webkit-scrollbar-thumb {
-  background: #cbd5e1; /* slate-300 */
+  background: #cbd5e1;
+  /* slate-300 */
   border-radius: 10px;
 }
 
 .link-container2::-webkit-scrollbar-thumb {
-  background: #ff00df; /* slate-300 */
+  background: #ff00df;
+  /* slate-300 */
   border-radius: 10px;
 }
 
 .link-container::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; /* slate-400 */
+  background: #94a3b8;
+  /* slate-400 */
 }
 
-@keyframes spinCard{
-  from{
+@keyframes spinCard {
+  from {
     transform: translateY(0)
-  };
-  to{
+  }
+  ;
+
+  to {
     transform: translateY(-100%)
-  };
+  }
+
+  ;
 }
 
-.apply-animation{
+@media (width<1280) {
+  
+@keyframes spinCard {
+  from {
+    transform: translateX(0)
+  }
+
+  to {
+    transform: translateX(-100%)
+  }
+
+  ;
+}
+}
+
+.apply-animation {
   animation: spinCard 30s infinite linear;
 
 }
-.scrollcontainer::-webkit-scrollbar{
+
+.scrollcontainer::-webkit-scrollbar {
   display: none;
-  
+
 }
 
-.card{
+.card {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.card1{
+.card1 {
   background-image: url("/images/svgexport-24.png");
 }
-.card2{
+
+.card2 {
   background-image: url("/images/svgexport-25.png");
 }
-.card3{
+
+.card3 {
   background-image: url("/images/svgexport-26.png");
 }
-.card4{
+
+.card4 {
   background-image: url("/images/svgexport-27.png");
 }
-.card5{
+
+.card5 {
   background-image: url("/images/svgexport-28.png");
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ffaa00;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
