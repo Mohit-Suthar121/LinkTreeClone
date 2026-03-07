@@ -64,6 +64,7 @@ export default function Home() {
     if(!userImageUrl){
       console.log("image is required")
       setImageError(true);
+      isLoading(false)
       return;
     }
     const mergedData = { ...data, links: userLinks,imageurl:userImageUrl }
@@ -85,11 +86,13 @@ export default function Home() {
       top: 0,
       behavior: "smooth"
     })
+    setIsLoading(false);
       return;
     }
 
     if (!res.ok) {
       console.log("Some  Error Occured! ")
+      setIsLoading(false);
       return;
     }
 
@@ -121,7 +124,7 @@ export default function Home() {
     setNameError(false);
   }, [username])
 
-  if(isLoading) return <LoadingScreen/>
+  if(isLoading && !nameError) return <LoadingScreen/>
   return (
     
     <div className=" relative w-full flex justify-between max-xl:flex-col max-xl:justify-center border-red-700">

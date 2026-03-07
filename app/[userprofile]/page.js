@@ -4,8 +4,20 @@ import React, { useEffect, useState, use } from 'react';
 import LinkButtons from '../../components/LinkButtons';
 import LoadingScreen from '../../components/LoadingScreen'
 import CopySvg from '../../components/CopySvg'
-
+import { ToastContainer, toast,Bounce } from 'react-toastify';
 const Page = ({ params }) => {
+
+    const notify = () => toast.success('Copied to Clipboard!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });;
 
     const { userprofile } = use(params);
     const [userData, setUserData] = useState({
@@ -29,6 +41,12 @@ const Page = ({ params }) => {
     useEffect(() => {
         fetchData();
     }, [])
+
+    async function handleCopy(text) {
+        await navigator.clipboard.writeText(window.location.href)
+        notify()
+
+    }
 
     if (!isDataFetched) return <LoadingScreen />;
     return (
@@ -71,20 +89,20 @@ const Page = ({ params }) => {
                 </div>
             </div>
 
-            <div className="copy-link-container fixed top-1/2 -translate-y-1/2 right-5  w-full max-w-md px-6 flex flex-col items-center gap-3">
-                
+            <div className="copy-link-container fixed max-xl:bottom-0 max-xl:top-auto top-1/2 -translate-y-1/2 right-5  w-full max-w-md px-6 flex flex-col items-center gap-3">
+
                 {/* CTA Text Styled to match subheader style */}
                 <span className="text-[#d79cff] font-bold uppercase text-[10px] tracking-[0.2em] drop-shadow-sm">
                     Share this link with people to connect with you
                 </span>
 
                 <div className="relative copy-link-button w-full h-12 flex justify-between items-center bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl group transition-all hover:border-[#ff00df]/50 hover:bg-white/15">
-                    
+
                     <span className="pl-5 text-sm font-medium text-white/70 truncate pr-16">
-                       {window.location.href}
+                        {window.location.href}
                     </span>
 
-                    <div className="absolute right-0 top-0 bottom-0 aspect-square flex justify-center items-center bg-[#ff00df] hover:bg-[#ff00df]/90 cursor-pointer transition-all active:scale-95 shadow-[-10px_0_20px_rgba(0,0,0,0.2)]">
+                    <div onClick={handleCopy} className="absolute right-0 top-0 bottom-0 aspect-square flex justify-center items-center bg-[#ff00df] hover:bg-[#ff00df]/90 cursor-pointer transition-all active:scale-95 shadow-[-10px_0_20px_rgba(0,0,0,0.2)]">
                         <div className="w-5 h-5 text-white transform group-hover:scale-110 transition-transform">
                             <CopySvg />
                         </div>
@@ -92,9 +110,19 @@ const Page = ({ params }) => {
                 </div>
             </div>
 
-           
 
 
+            <ToastContainer position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce} />
         </div>
     );
 }
