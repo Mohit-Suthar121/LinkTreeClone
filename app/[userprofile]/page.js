@@ -89,7 +89,7 @@ const Page = ({ params }) => {
                 </div>
             </div>
 
-            <div className="copy-link-container fixed max-xl:bottom-0 max-xl:top-auto top-1/2 -translate-y-1/2 right-5  w-full max-w-md px-6 flex flex-col items-center gap-3">
+            <div className="copy-link-container fixed max-xl:left-1/2 max-xl:-translate-x-1/2 max-xl:bottom-0 max-xl:top-auto top-1/2 -translate-y-1/2 right-5  w-full max-w-md px-6 flex flex-col items-center gap-3">
 
                 {/* CTA Text Styled to match subheader style */}
                 <span className="text-[#d79cff] font-bold uppercase text-[10px] tracking-[0.2em] drop-shadow-sm">
