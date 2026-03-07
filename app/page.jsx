@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form"
 import Image from 'next/image';
+import LoadingScreen from "@/components/LoadingScreen"
 
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
   const [uploadingImage,setUploadingImage] = useState(false);
   const [userImageUrl,setUserImageUrl] = useState(null);
   const [imageError,setImageError] = useState(false);
+  const[isLoading,setIsLoading] = useState(false);
 
 
 
@@ -58,6 +60,7 @@ export default function Home() {
 
 
   async function handleSave(data) {
+    setIsLoading(true);
     if(!userImageUrl){
       console.log("image is required")
       setImageError(true);
@@ -93,6 +96,7 @@ export default function Home() {
 
     const result = await res.json();
     console.log("Response received from the backend: ", result)
+    setIsLoading(false);
     router.push(`/${data.username}`)
 
 
@@ -117,7 +121,7 @@ export default function Home() {
     setNameError(false);
   }, [username])
 
-
+  if(isLoading) return <LoadingScreen/>
   return (
     
     <div className=" relative w-full   flex justify-between">
