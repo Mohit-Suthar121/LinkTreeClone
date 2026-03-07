@@ -1,7 +1,4 @@
 
-import Link from 'next/link'
-import React from 'react'
-
 const LinkButtons = ({ linkText, linkUrl }) => {
     const formattedUrl = (!linkUrl.startsWith("http://") && !linkUrl.startsWith("https://"))?"https://"+linkUrl:linkUrl;
 

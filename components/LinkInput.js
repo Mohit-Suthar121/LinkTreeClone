@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 const LinkInput = ({link,onChange}) => {
     function handleChange(e){

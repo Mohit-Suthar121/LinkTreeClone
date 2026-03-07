@@ -4,19 +4,34 @@ import Card from '@/components/Card'
 import LinkInput from '@/components/LinkInput'
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
+import Image from 'next/image';
+
 
 export default function Home() {
 
-
-
-
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
+  async function handleImageUpload(e){
+    const file = e.target.files[0];
+    setUploadingImage(true);
+    const formdata = new FormData();
+    formdata.append("file",file);
+    formdata.append("upload_preset","Bittree_Preset")
+    formdata.append("cloud_name","ds8b7cacr")
+    const res = await fetch("https://api.cloudinary.com/v1_1/ds8b7cacr/image/upload",{
+      method:"POST",
+      body:formdata
     })
+    const resData = await res.json();
+    console.log("The response  data from the cloud is: ",resData)
+    console.log("The response  data url from the cloud is: ",resData.secure_url)
+    setUserImageUrl(resData.secure_url);
+    setUploadingImage(false)
   }
+  const [uploadingImage,setUploadingImage] = useState(false);
+  const [userImageUrl,setUserImageUrl] = useState(null);
+  const [imageError,setImageError] = useState(false);
+
+
 
   const {
     register,
@@ -28,19 +43,14 @@ export default function Home() {
 
   const router = useRouter();
 
-  // function handleChange(e) {
-
-  //   setUserData(prev => ({ ...prev, [e.target.name]: e.target.value }))
-  // }
 
 
-  function handleNewLink(e) {
+  function handleNewLink() {
     const newLink = {
       id: crypto.randomUUID(),
       linkText: "",
       linkUrl: ""
     }
-    // setUserData(prev => ({ ...prev, links: [...prev.links, newLink] }))
     setUserLinks(prev => [...prev, newLink])
   }
 
@@ -48,7 +58,12 @@ export default function Home() {
 
 
   async function handleSave(data) {
-    const mergedData = { ...data, links: userLinks }
+    if(!userImageUrl){
+      console.log("image is required")
+      setImageError(true);
+      return;
+    }
+    const mergedData = { ...data, links: userLinks,imageurl:userImageUrl }
     console.log("The merged data is: ", mergedData)
 
 
@@ -63,9 +78,13 @@ export default function Home() {
     if (res.status == 409) {
       console.log("Username is already taken")
       setNameError(true);
-      scrollToTop();
+      window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
       return;
     }
+
     if (!res.ok) {
       console.log("Some  Error Occured! ")
       return;
@@ -100,9 +119,9 @@ export default function Home() {
 
 
   return (
+    
     <div className=" relative w-full   flex justify-between">
-
-
+      
       <Navbar />
 
       <div className="min-h-screen maincontainer p-5 flex w-[50%]   pt-60">
@@ -132,7 +151,6 @@ export default function Home() {
 
                     <input
                       {...register("username", { required: true })}
-                      name="username"
                       placeholder="Enter Username"
                       className="w-full border-2 border-slate-100 bg-slate-50 p-4 pl-32 h-14 rounded-2xl focus:border-[#ffaa00] focus:ring-0 transition-all outline-none"
                       type="text"
@@ -178,21 +196,41 @@ export default function Home() {
                     Profile Details
                   </label>
                   <div className="grid grid-cols-1 gap-4">
-                    {errors.imageurl && <span className='font-normal text-red-600 '>*Image Url Is Required!</span>}
+                    {imageError && <span className='font-normal text-red-600 '>*Image Is Required!</span>}
                     <input
-                      {...register("imageurl", { required: true })}
-                      className="w-full border-2 border-slate-100 bg-slate-50 p-4 h-14 rounded-2xl focus:border-[#ffaa00] outline-none"
-                      placeholder="Image URL (e.g. cloudinary.com/your-pic)"
-                      name="imageurl"
-                      type="text"
+                      className="hidden w-full border-2 border-slate-100 bg-slate-50 p-4 h-14 rounded-2xl focus:border-[#ffaa00] outline-none"
+                     
+                      placeholder='choose file from your device'
+                      type="file"
+                      id='fileUpload'
+                      onChange={handleImageUpload}
                     />
+
+                    <label
+                      className="group w-full border-2 border-dashed border-slate-200 bg-white/50 backdrop-blur-sm p-2 min-h-16 rounded-2xl cursor-pointer flex items-center justify-between transition-all duration-200 hover:border-[#ff00df] hover:bg-white"
+                      htmlFor="fileUpload"
+                    >
+                      {!userImageUrl && <span className="text-[#676767] text-sm font-medium ml-4 truncate">
+                        No file selected...
+                      </span>}
+
+                        {userImageUrl &&<div className='relative w-20 h-20 '>
+                          <Image alt='profile-pic' src={userImageUrl} fill/>
+                        </div>}
+
+                      <div className="h-12 px-6 flex items-center justify-center rounded-xl bg-[#9800ff] text-white text-sm font-bold shadow-md transition-all group-hover:bg-[#ff00df] active:scale-95">
+                        Choose File
+                      </div>
+                      
+                    </label>
+
+
 
                     {errors.description && <span className='font-normal text-red-600 '>*Bio is Required!</span>}
                     <input
                       {...register("description", { required: true })}
                       className="w-full border-2 border-slate-100 bg-slate-50 p-4 h-14 rounded-2xl focus:border-[#ffaa00] outline-none"
                       placeholder="Short bio/description"
-                      name="description"
                       type="text"
                     />
                   </div>
